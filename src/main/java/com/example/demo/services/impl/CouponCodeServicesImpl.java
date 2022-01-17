@@ -17,14 +17,23 @@ public class CouponCodeServicesImpl implements CouponCodeServices {
     private CouponCodeRepository couponCodeRepository;
 
     @Override
-    public CouponCodeDTO addCouponCode(CouponCodeDTO couponCodeDTO)  {
+    public CouponCodeDTO addCouponCode(CouponCodeDTO couponCodeDTO) {
 
-        CouponCode couponCode = new CouponCode(couponCodeDTO);
-        CouponCode savedCode = couponCodeRepository.save(couponCode);
-        CouponCodeDTO savedCouponCodeDTO = new CouponCodeDTO(savedCode);
-        return savedCouponCodeDTO;
+        CouponCodeDTO savedCouponCodeDTO = null;
+        if (couponCodeDTO.getEffectiveFrom().isAfter(couponCodeDTO.getEffectiveTo())) {
+            System.out.println("Cannot add this.");
+            return new CouponCodeDTO("001","You are not authorized");
+        }else{
+
+            CouponCode couponCode = new CouponCode(couponCodeDTO);
+            CouponCode savedCode = couponCodeRepository.save(couponCode);
+            savedCouponCodeDTO = new CouponCodeDTO(savedCode);
+            return savedCouponCodeDTO;
+        }
+
+
     }
-    //        if(couponCodeDTO.getEffectiveFrom().isAfter(couponCodeDTO.getEffectiveTo())){
+    //        if(couponCodeDTO.getEffectiveFrom().isAfter(couponCodeDTO.getEffectiveTo())){//condition negative positive
 //            throw new Exception();
 //        }
 //new function
@@ -35,7 +44,7 @@ public class CouponCodeServicesImpl implements CouponCodeServices {
 //        if(){
 //
 //        }
-;
+    ;
 
     @Override
     public CouponCodeDTO updateCouponCode(CouponCodeDTO couponCodeDTO) {
@@ -47,7 +56,9 @@ public class CouponCodeServicesImpl implements CouponCodeServices {
 
     @Override
     public List<CouponCodeDTO> findAll() {
-        List<CouponCode> couponCodes = couponCodeRepository.findAll();
+        List<CouponCode> couponCodes = couponCodeRepository.findAll();//query
+//        couponCodeRepository.findById(1);
+        //effective from to effect to active list
         List<CouponCodeDTO> couponCodeDTOS = new ArrayList<>();
         for (CouponCode couponCode : couponCodes) {
             CouponCodeDTO couponCodeDTO = new CouponCodeDTO(couponCode);
@@ -66,10 +77,10 @@ public class CouponCodeServicesImpl implements CouponCodeServices {
     @Override
     public List<CouponCodeDTO> findByStatus(Boolean status) {
 
-            List<CouponCode> couponCodes = couponCodeRepository.findAll();
-            List<CouponCodeDTO> couponCodeDTOS = new ArrayList<>();
-            for (CouponCode couponCode : couponCodes) {
-                if (couponCode.getStatus().equals(status)) {
+        List<CouponCode> couponCodes = couponCodeRepository.findAll();
+        List<CouponCodeDTO> couponCodeDTOS = new ArrayList<>();
+        for (CouponCode couponCode : couponCodes) {
+            if (couponCode.getStatus().equals(status)) {
                 CouponCodeDTO couponCodeDTO = new CouponCodeDTO(couponCode);
                 couponCodeDTOS.add(couponCodeDTO);
 
