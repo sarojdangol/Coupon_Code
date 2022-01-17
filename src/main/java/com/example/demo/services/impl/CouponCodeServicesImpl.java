@@ -1,6 +1,6 @@
 package com.example.demo.services.impl;
 
-import com.example.demo.dto.CouponCodeDTO;
+import com.example.demo.view.CouponCodeDTO;
 import com.example.demo.model.CouponCode;
 import com.example.demo.repository.CouponCodeRepository;
 import com.example.demo.services.CouponCodeServices;
@@ -17,12 +17,25 @@ public class CouponCodeServicesImpl implements CouponCodeServices {
     private CouponCodeRepository couponCodeRepository;
 
     @Override
-    public CouponCodeDTO addCouponCode(CouponCodeDTO couponCodeDTO) {
+    public CouponCodeDTO addCouponCode(CouponCodeDTO couponCodeDTO)  {
+
         CouponCode couponCode = new CouponCode(couponCodeDTO);
         CouponCode savedCode = couponCodeRepository.save(couponCode);
-        CouponCodeDTO savedcouponCodeDTO = new CouponCodeDTO(savedCode);
-        return savedcouponCodeDTO;
+        CouponCodeDTO savedCouponCodeDTO = new CouponCodeDTO(savedCode);
+        return savedCouponCodeDTO;
     }
+    //        if(couponCodeDTO.getEffectiveFrom().isAfter(couponCodeDTO.getEffectiveTo())){
+//            throw new Exception();
+//        }
+//new function
+    //set couponcode.set();
+    //        if(couponCodeDTO.getEffectiveFrom().isAfter(couponCodeDTO.getEffectiveTo())){
+//            throw new Exception();
+//        }
+//        if(){
+//
+//        }
+;
 
     @Override
     public CouponCodeDTO updateCouponCode(CouponCodeDTO couponCodeDTO) {

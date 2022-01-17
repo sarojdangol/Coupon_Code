@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.dto.CouponCodeDTO;
+import com.example.demo.view.CouponCodeDTO;
 
 import java.util.List;
 

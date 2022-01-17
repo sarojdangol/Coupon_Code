@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.CouponCodeDTO;
+import com.example.demo.view.CouponCodeDTO;
 import com.example.demo.services.CouponCodeServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
