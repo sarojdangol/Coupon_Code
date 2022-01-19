@@ -1,15 +1,17 @@
 package com.example.demo.services;
 
-import com.example.demo.view.CouponCodeDTO;
+import com.example.demo.dto.CouponCodeDTO;
+import com.example.demo.model.CouponCode;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CouponCodeServices {
 CouponCodeDTO addCouponCode(CouponCodeDTO couponCodeDTO);
 CouponCodeDTO updateCouponCode(CouponCodeDTO couponCodeDTO);
 List <CouponCodeDTO> findAll();
 List <CouponCodeDTO> findByStatus(Boolean status);
-
-Boolean setActivate(CouponCodeDTO couponCodeDTO);
+Optional<CouponCode> findById(int id);
+List<CouponCodeDTO> findActiveList();
 
 }

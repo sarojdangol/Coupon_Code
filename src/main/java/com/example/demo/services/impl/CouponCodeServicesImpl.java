@@ -1,6 +1,6 @@
 package com.example.demo.services.impl;
 
-import com.example.demo.view.CouponCodeDTO;
+import com.example.demo.dto.CouponCodeDTO;
 import com.example.demo.model.CouponCode;
 import com.example.demo.repository.CouponCodeRepository;
 import com.example.demo.services.CouponCodeServices;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CouponCodeServicesImpl implements CouponCodeServices {
@@ -22,8 +23,8 @@ public class CouponCodeServicesImpl implements CouponCodeServices {
         CouponCodeDTO savedCouponCodeDTO = null;
         if (couponCodeDTO.getEffectiveFrom().isAfter(couponCodeDTO.getEffectiveTo())) {
             System.out.println("Cannot add this.");
-            return new CouponCodeDTO("001","You are not authorized");
-        }else{
+            return new CouponCodeDTO("001", "You are not authorized");
+        } else {
 
             CouponCode couponCode = new CouponCode(couponCodeDTO);
             CouponCode savedCode = couponCodeRepository.save(couponCode);
@@ -33,18 +34,7 @@ public class CouponCodeServicesImpl implements CouponCodeServices {
 
 
     }
-    //        if(couponCodeDTO.getEffectiveFrom().isAfter(couponCodeDTO.getEffectiveTo())){//condition negative positive
-//            throw new Exception();
-//        }
-//new function
-    //set couponcode.set();
-    //        if(couponCodeDTO.getEffectiveFrom().isAfter(couponCodeDTO.getEffectiveTo())){
-//            throw new Exception();
-//        }
-//        if(){
-//
-//        }
-    ;
+
 
     @Override
     public CouponCodeDTO updateCouponCode(CouponCodeDTO couponCodeDTO) {
@@ -56,28 +46,40 @@ public class CouponCodeServicesImpl implements CouponCodeServices {
 
     @Override
     public List<CouponCodeDTO> findAll() {
-        List<CouponCode> couponCodes = couponCodeRepository.findAll();//query
+        List<CouponCode> couponCodes = couponCodeRepository.fetchAll();//query
 //        couponCodeRepository.findById(1);
         //effective from to effect to active list
         List<CouponCodeDTO> couponCodeDTOS = new ArrayList<>();
-        for (CouponCode couponCode : couponCodes) {
+        couponCodes.forEach(couponCode -> {
             CouponCodeDTO couponCodeDTO = new CouponCodeDTO(couponCode);
             couponCodeDTOS.add(couponCodeDTO);
-
-        }
+        });
+//        for (CouponCode couponCode : couponCodes) {
+//            CouponCodeDTO couponCodeDTO = new CouponCodeDTO(couponCode);
+//            couponCodeDTOS.add(couponCodeDTO);
+//
+//        }
         return couponCodeDTOS;
+
 
     }
 
     @Override
-    public Boolean setActivate(CouponCodeDTO couponCodeDTO) {
-        return true;
+    public Optional<CouponCode> findById(int id) {
+
+        Optional<CouponCode> couponCodeOptional = couponCodeRepository.fetchById(id);
+        if (couponCodeOptional.isEmpty()) {
+            return null;
+        } else {
+            return couponCodeRepository.fetchById(id);
+        }
     }
+
 
     @Override
     public List<CouponCodeDTO> findByStatus(Boolean status) {
 
-        List<CouponCode> couponCodes = couponCodeRepository.findAll();
+        List<CouponCode> couponCodes = couponCodeRepository.fetchAll();
         List<CouponCodeDTO> couponCodeDTOS = new ArrayList<>();
         for (CouponCode couponCode : couponCodes) {
             if (couponCode.getStatus().equals(status)) {
@@ -86,7 +88,13 @@ public class CouponCodeServicesImpl implements CouponCodeServices {
 
             }
         }
+
         return couponCodeDTOS;
+    }
+
+    @Override
+    public List<CouponCodeDTO> findActiveList() {
+        return null;
     }
 }
 
