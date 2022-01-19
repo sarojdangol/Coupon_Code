@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +49,12 @@ private CouponCodeServices couponCodeServices;
     @PutMapping
     public CouponCodeDTO updateCouponCode(@RequestBody CouponCodeDTO couponCodeDTO) {
         return couponCodeServices.updateCouponCode(couponCodeDTO);
+    }
+
+    @GetMapping("/activeList")
+    public List<CouponCodeDTO> getActiveList(){
+
+        return couponCodeServices.findActiveList();
     }
 
 

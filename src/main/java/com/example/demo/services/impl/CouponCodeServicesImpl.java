@@ -7,7 +7,9 @@ import com.example.demo.services.CouponCodeServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,12 +56,12 @@ public class CouponCodeServicesImpl implements CouponCodeServices {
             CouponCodeDTO couponCodeDTO = new CouponCodeDTO(couponCode);
             couponCodeDTOS.add(couponCodeDTO);
         });
+        return couponCodeDTOS;
 //        for (CouponCode couponCode : couponCodes) {
 //            CouponCodeDTO couponCodeDTO = new CouponCodeDTO(couponCode);
 //            couponCodeDTOS.add(couponCodeDTO);
 //
 //        }
-        return couponCodeDTOS;
 
 
     }
@@ -94,7 +96,20 @@ public class CouponCodeServicesImpl implements CouponCodeServices {
 
     @Override
     public List<CouponCodeDTO> findActiveList() {
-        return null;
+CouponCodeDTO dateTime=new CouponCodeDTO();
+        List<CouponCode> couponCodes = couponCodeRepository.findActiveList(dateTime.getEffectiveFrom(),dateTime.getEffectiveTo());
+        List<CouponCodeDTO> couponCodeDTOS = new ArrayList<>();
+//        LocalDateTime date = LocalDateTime.now();
+        couponCodes.forEach(couponCode -> {
+            CouponCodeDTO couponCodeDTO = new CouponCodeDTO(couponCode);
+//            if (couponCodeDTO.getEffectiveFrom().isBefore(date) && couponCodeDTO.getEffectiveTo().isAfter(date)) {
+                couponCodeDTOS.add(couponCodeDTO);
+//            }
+        });
+
+        return couponCodeDTOS;
     }
+
+
 }
 
